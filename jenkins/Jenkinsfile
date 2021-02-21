@@ -1,12 +1,13 @@
 pipeline {
-    agent { label 'docker-slave' }
     stages {
         stage('Build') {
+            agent { label 'docker-slave' }
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Code Quality Check via SonarQube') {
+            agent any
                steps {
                    script {
                    def scannerHome = tool 'sonar-scanner';
@@ -17,6 +18,7 @@ pipeline {
            }
        }
         stage('Test') {
+            agent { label 'docker-slave' }
             steps {
                 sh 'mvn test'
             }
