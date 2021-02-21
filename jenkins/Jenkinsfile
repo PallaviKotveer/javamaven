@@ -5,6 +5,8 @@ pipeline {
             agent { label 'docker-slave' }
             steps {
                 sh 'mvn -B -DskipTests clean package'
+                sh 'pwd > workspace'
+                workspace = readFile('workspace').trim()
             }
         }
         stage('Code Quality Check via SonarQube') {
