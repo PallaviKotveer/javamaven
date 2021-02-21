@@ -1,28 +1,28 @@
 pipeline {
-    agent none
+    environment {
+        JAVA_TOOL_OPTIONS = "-Duser.home=/home/jenkins"
+    }
+    agent { 
+        label 'docker-slave'
+        args "-v /tmp/maven:/home/jenkins/.m2 -e MAVEN_CONFIG=/home/jenkins/.m2"
+    }
     stages {
-        stage('Build') {
-            agent { label 'docker-slave' }
+        stage('Build') {            
             steps {
                 sh 'mvn -B -DskipTests clean package'
-                def workspace = sh 'pwd'
-                echo "\u2600 workspace=${workspace}"
              }
         }
         stage('Code Quality Check via SonarQube') {
-            agent any
                steps {
                    script {
-                       sh 'mvn -B -DskipTests clean package'
                        def scannerHome = tool 'sonar-scanner';
                        withSonarQubeEnv("SonarQube") {
-                       sh "${tool("sonar-scanner")}/bin/sonar-scanner -Dsonar.projectKey=java-maven -Dsonar.projectName=Simple-maven-proj -Dsonar.projectVersion=1.0 -Dsonar.sources=${WORKSPACE}/src/main/java/com/mycompany/app -Dsonar.language=java -Dsonar.java.binaries=target/classes"
+                       sh "${tool("sonar-scanner")}/bin/sonar-scanner -Dsonar.projectKey=java-maven -Dsonar.projectName=Simple-maven-proj -Dsonar.projectVersion=1.0 -Dsonar.sources=/home/jenkins/workspace/java-maven/src/main/java/com/mycompany/app -Dsonar.language=java -Dsonar.java.binaries=target/classes"
                    }
                }
            }
        }
         stage('Test') {
-            agent { label 'docker-slave' }
             steps {
                 sh 'mvn test'
             }
