@@ -58,7 +58,8 @@ pipeline {
             }
         }
         stage('delete build'){
-            script{
+            steps{
+                script{
                 def buildLogCount=5
 def jobName = "java-maven"
            def jobInfo = Jenkins.instance.getItem(jobName)
@@ -92,6 +93,7 @@ def jobName = "java-maven"
             println "No build logs found in ${jobName}"
             }
     
+            }
             }
         }
     }
