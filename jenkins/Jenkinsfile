@@ -5,6 +5,9 @@ pipeline {
     agent {
             label 'docker-slave'       
     }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '2'))
+    }
     stages {
         stage('Build') {            
             steps {
