@@ -56,6 +56,43 @@ pipeline {
                     }
                 }
             }
-        }        
+        }
+        stage('delete build'){
+            script{
+                def buildLogCount=5
+def jobName = "java-maven"
+           def jobInfo = Jenkins.instance.getItem(jobName)
+          
+          if(jobInfo.getLastBuild()){
+            
+                def lastBuildNum=jobInfo.getLastBuild().getNumber()
+        
+              if(lastBuildNum>=buildLogCount){
+                 def deletedBuildNum=lastBuildNum - buildLogCount
+                    def deletedNumRange = Fingerprint.RangeSet.fromString("0-${deletedBuildNum}",false);
+                
+                    def buildCount=jobInfo.getBuilds(deletedNumRange).size()
+                
+                    if(buildCount==0){
+                        println "No build logs found in  ${jobName} and build history count is : ${buildCount}"
+                    }
+                    else{
+                
+                        jobInfo.getBuilds(deletedNumRange).each { item ->
+                             item.delete()
+                        }
+                    }
+                }
+                else{
+                  println "No build logs to delete in ${jobName}"
+                }
+            }
+          else{
+            
+            println "No build logs found in ${jobName}"
+            }
+    
+            }
+        }
     }
 }
