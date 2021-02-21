@@ -5,7 +5,8 @@ pipeline {
             agent { label 'docker-slave' }
             steps {
                 sh 'mvn -B -DskipTests clean package'
-                sh 'pwd && echo "++++++++++++++++++++++++++#########"'
+                def workspace = sh 'pwd'
+                echo "\u2600 workspace=${workspace}"
              }
         }
         stage('Code Quality Check via SonarQube') {
