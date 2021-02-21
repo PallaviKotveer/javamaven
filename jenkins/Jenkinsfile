@@ -1,5 +1,4 @@
 pipeline {
-    options([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactNumToKeepStr: '5', numToKeepStr: '5']]]);
     environment {
         JAVA_TOOL_OPTIONS = "-Duser.home=/home/jenkins"
     }
