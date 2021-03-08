@@ -12,7 +12,21 @@ pipeline {
     stages {
         stage('Build') {            
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn -B -DskipTests clean package'                
+             }
+        }
+        /*stage('Code Quality Check via SonarQube') {
+               steps {
+                   script {
+                       def scannerHome = tool 'sonar-scanner';
+                       withSonarQubeEnv("SonarQube") {
+                       sh "${tool("sonar-scanner")}/bin/sonar-scanner -Dsonar.projectKey=java-maven -Dsonar.projectName=Simple-maven-proj -Dsonar.projectVersion=1.0 -Dsonar.sources=${WORKSPACE}/src/main/java/com/mycompany/app -Dsonar.language=java -Dsonar.java.binaries=target/classes"
+                   }
+               }
+           }
+       }*/
+       stage('Backing up war file') {
+            steps {
                 script {
                     JENKINS_BACKUP_FILE_NAME = sh (
                         script: '''#!/bin/bash
@@ -32,39 +46,6 @@ pipeline {
                 step([$class: 'ClassicUploadStep', credentialsId: 'ccbt-infradevops-googlecloudstorage',  
                 bucket: "gs://bank_app",
                       pattern: JENKINS_BACKUP_FILE_NAME])
-             }
-        }
-        /*stage('Code Quality Check via SonarQube') {
-               steps {
-                   script {
-                       def scannerHome = tool 'sonar-scanner';
-                       withSonarQubeEnv("SonarQube") {
-                       sh "${tool("sonar-scanner")}/bin/sonar-scanner -Dsonar.projectKey=java-maven -Dsonar.projectName=Simple-maven-proj -Dsonar.projectVersion=1.0 -Dsonar.sources=${WORKSPACE}/src/main/java/com/mycompany/app -Dsonar.language=java -Dsonar.java.binaries=target/classes"
-                   }
-               }
-           }
-       }*/
-       stage('Backing up war file') {
-            steps {
-                script {
-                    WAR_FILE_NAME = sh (
-                        script: '''#!/bin/bash
-                            # find latest backup
-                            # war_path="${WORKSPACE}/target/target/my-app-1.0-SNAPSHOT.jar"
-                            # latest_backup_folder=$(ls -t $war_path | head -n1)
-                            full_path="${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar"
-                           
-                            # pack it up
-                            #backup_name= "build"
-                            #tar cvzf $backup_name $full_path
-                            #echo ${backup_name}
-                            ''',
-                        returnStdout: true
-                    ).trim().tokenize()
-                }
-                step([$class: 'ClassicUploadStep', credentialsId: 'ccbt-infradevops-googlecloudstorage',  
-                bucket: "gs://bank_app",
-                      pattern: WAR_FILE_NAME])
                 
             }
         }
