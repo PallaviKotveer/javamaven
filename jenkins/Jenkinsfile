@@ -36,12 +36,12 @@ pipeline {
                             full_path="$build_path/$latest_backup_folder"
                            
                             # pack it up
-                            backup_name="$latest_backup_folder.tar.gz"
+                            backup_name="$latest_backup_folder"+"_"+date +"%m/%d/%Y"+"_"+ date +"%H:%M:%S"+".tar.gz"
                             tar cvzf $backup_name $full_path
                             echo ${backup_name}
                             ''',
                         returnStdout: true
-                    ).trim().tokenize().last()+LocalDate.now()format("MM/dd/yyyy")
+                    ).trim().tokenize().last()
                 }
                 step([$class: 'ClassicUploadStep', credentialsId: 'ccbt-infradevops-googlecloudstorage',  
                 bucket: "gs://bank_app",
