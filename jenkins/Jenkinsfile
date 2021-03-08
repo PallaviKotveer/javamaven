@@ -23,7 +23,7 @@ pipeline {
                             echo ${full_path}
                            
                             # pack it up
-                            backup_name= "1"+"_build"
+                            backup_name= "build"
                             tar cvzf $backup_name $full_path
                             echo ${backup_name}
                             ''',
