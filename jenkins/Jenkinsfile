@@ -73,9 +73,9 @@ pipeline {
                             full_path="${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar"
                            
                             # pack it up
-                            backup_name= "1"+"_build"
-                            tar cvzf $backup_name $full_path
-                            echo ${backup_name}
+                            #backup_name= "1"+"_build"
+                            #tar cvzf $backup_name $full_path
+                            #echo ${backup_name}
                             ''',
                         returnStdout: true
                     ).trim().tokenize().last()
