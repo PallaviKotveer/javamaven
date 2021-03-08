@@ -17,16 +17,15 @@ pipeline {
                     WAR_FILE_NAME = sh (
                         script: '''#!/bin/bash
                             # find latest backup
-                            # war_path="$JENKINS_HOME/thinBackup"
-                            # latest_backup_folder=$(ls -t $war_path | head -n1)
-                            full_path="${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar"
-                            echo ${full_path}
+                            thinbackup_path="${WORKSPACE}/target/target/my-app-1.0-SNAPSHOT.jar"
+                            latest_backup_folder=$(ls -t $thinbackup_path | head -n1)
+                            full_path="$thinbackup_path/$latest_backup_folder"
                            
                             # pack it up
-                            backup_name= "build"
+                            backup_name="$latest_backup_folder.tar.gz"
                             tar cvzf $backup_name $full_path
                             echo ${backup_name}
-                            ''',
+                            '''',
                         returnStdout: true
                     ).trim().tokenize()
                 }
