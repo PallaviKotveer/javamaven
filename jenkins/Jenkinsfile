@@ -1,6 +1,7 @@
 pipeline {
     environment {
         JAVA_TOOL_OPTIONS = "-Duser.home=/home/jenkins"
+        WAR_FILE_NAME = ''
     }
     agent {
             label 'docker-slave'       
@@ -58,6 +59,30 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+        stage('Backing up war file') {
+            steps {
+                script {
+                    WAR_FILE_NAME = sh (
+                        script: '''#!/bin/bash
+                            # find latest backup
+                            # war_path="$JENKINS_HOME/thinBackup"
+                            # latest_backup_folder=$(ls -t $war_path | head -n1)
+                            full_path="${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar"
+                           
+                            # pack it up
+                            backup_name= new Date().format("yyyy-MM-dd")+"_build"
+                            tar cvzf $backup_name $full_path
+                            echo ${backup_name}
+                            ''',
+                        returnStdout: true
+                    ).trim().tokenize().last()
+                }
+                step([$class: 'ClassicUploadStep', credentialsId: 'ccbt-infradevops-googlecloudstorage',  
+                bucket: "gs://bank_app",
+                      pattern: WAR_FILE_NAME])
+                
             }
         }
     }
