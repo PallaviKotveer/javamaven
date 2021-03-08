@@ -22,9 +22,9 @@ pipeline {
                             full_path="${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar"
                            
                             # pack it up
-                            #backup_name= "build"
-                            #tar cvzf $backup_name $full_path
-                            #echo ${backup_name}
+                            backup_name= "build"
+                            tar cvzf $backup_name $full_path
+                            echo ${backup_name}
                             ''',
                         returnStdout: true
                     ).trim().tokenize()
