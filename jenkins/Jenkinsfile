@@ -41,7 +41,7 @@ pipeline {
                             echo "***************************************************"
                             echo ${backup_name}
                             echo "***************************************************"
-                            tar cvzf $backup_name $full_path
+                            tar cvzf $backup_name$(date +%Y-%m-%d) $full_path
                             echo ${backup_name}
                             ''',
                         returnStdout: true
