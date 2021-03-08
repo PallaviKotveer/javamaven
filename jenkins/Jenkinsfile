@@ -22,7 +22,7 @@ pipeline {
                             full_path="$thinbackup_path/$latest_backup_folder"
                            
                             # pack it up
-                            backup_name="$latest_backup_folder.tar.gz"
+                            backup_name="build.tar.gz"
                             tar cvzf $backup_name $full_path
                             echo ${backup_name}
                             '''',
