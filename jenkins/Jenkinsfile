@@ -23,12 +23,12 @@ pipeline {
                             echo ${full_path}
                            
                             # pack it up
-                            #backup_name= "1"+"_build"
-                            #tar cvzf $backup_name $full_path
-                            #echo ${backup_name}
+                            backup_name= "1"+"_build"
+                            tar cvzf $backup_name $full_path
+                            echo ${backup_name}
                             ''',
                         returnStdout: true
-                    ).trim().tokenize().last()
+                    ).trim().tokenize()
                 }
                 step([$class: 'ClassicUploadStep', credentialsId: 'ccbt-infradevops-googlecloudstorage',  
                 bucket: "gs://bank_app",
