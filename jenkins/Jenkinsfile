@@ -34,9 +34,9 @@ pipeline {
                     junit 'target/surefire-reports/*.xml'
                 }
                 success {
-                    mail to: 'pallavikotvir@gmail.com',
+                    /*mail to: 'pallavikotvir@gmail.com',
                      subject: "Success Pipeline: ${currentBuild.fullDisplayName}",
-                     body: "Something is wrong with ${env.BUILD_URL}"
+                     body: "Something is wrong with ${env.BUILD_URL}"*/
                 }
                 changed {
                     script {
