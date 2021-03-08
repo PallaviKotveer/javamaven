@@ -19,7 +19,7 @@ pipeline {
                             # find latest backup
                             file_path = "${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar"
                             mkdir ${WORKSPACE}/build
-                            cp filt_path ${WORKSPACE}/build
+                            cp $filt_path ${WORKSPACE}/build
                             war_path="${WORKSPACE}/build"
                             latest_backup_folder=$(ls -t $war_path | head -n1)
                             full_path="$war_path/$latest_backup_folder"
