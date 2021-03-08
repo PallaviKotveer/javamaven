@@ -20,6 +20,7 @@ pipeline {
                             # war_path="$JENKINS_HOME/thinBackup"
                             # latest_backup_folder=$(ls -t $war_path | head -n1)
                             full_path="${WORKSPACE}/target/my-app-1.0-SNAPSHOT.jar"
+                            echo ${full_path}
                            
                             # pack it up
                             #backup_name= "1"+"_build"
