@@ -37,7 +37,7 @@ pipeline {
                            
                             # pack it up
                             current_date = $(date +%Y-%m-%d)
-                            backup_name="$latest_backup_folder+$current_date+.tar.gz"
+                            backup_name=$latest_backup_folder+$current_date+".tar.gz"
                             echo "***************************************************"
                             echo ${backup_name}
                             echo "***************************************************"
