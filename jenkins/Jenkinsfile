@@ -27,8 +27,7 @@ pipeline {
                            -Dsonar.sources=${WORKSPACE}/src/main/java/com/mycompany/app \
                            -Dsonar.language=java \
                            -Dsonar.java.binaries=target/classes\
-                           -Dsonar.host.url=http://sonarqube.ccbtinfradevops.live \
-                           -Dsonar.login=1904ae8fb641964c7389d512f2256ff0fca288e4"
+
                    }
                }
            }
