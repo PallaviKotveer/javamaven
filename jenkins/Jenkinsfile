@@ -15,7 +15,7 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'                
              }
         }
-        /*stage('Code Quality Check via SonarQube') {
+        stage('Code Quality Check via SonarQube') {
                steps {
                    script {
                        def scannerHome = tool 'sonar-scanner';
@@ -24,7 +24,7 @@ pipeline {
                    }
                }
            }
-       }*/
+       }
        stage('Backing up war file') {
             steps {
                 script {
